@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Rain - MacLiveEngine Sample</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+        
+        // Matrix characters
+        const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const charArray = chars.split('');
+        
+        // Column settings
+        const fontSize = 14;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = [];
+        
+        // Initialize drops
+        function initDrops() {
+            columns = Math.floor(canvas.width / fontSize);
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * -100;
+            }
+        }
+        initDrops();
+        window.addEventListener('resize', initDrops);
+        
+        // Colors
+        const primaryColor = '#0f0';
+        const fadeColor = 'rgba(0, 0, 0, 0.05)';
+        
+        // Animation
+        function draw() {
+            // Fade effect
+            ctx.fillStyle = fadeColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw characters
+            ctx.fillStyle = primaryColor;
+            ctx.font = `${fontSize}px monospace`;
+            
+            for (let i = 0; i < drops.length; i++) {
+                // Random character
+                const char = charArray[Math.floor(Math.random() * charArray.length)];
+                
+                // Draw character
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+                
+                // Brighter head
+                ctx.fillStyle = '#fff';
+                ctx.fillText(char, x, y);
+                
+                // Trail
+                ctx.fillStyle = primaryColor;
+                ctx.fillText(charArray[Math.floor(Math.random() * charArray.length)], x, y - fontSize);
+                
+                // Reset drop randomly or when off screen
+                if (y > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+            
+            requestAnimationFrame(draw);
+        }
+        
+        // Start animation
+        draw();
+        
+        // Interactive: mouse creates bright spots
+        canvas.addEventListener('mousemove', (e) => {
+            const col = Math.floor(e.clientX / fontSize);
+            if (col >= 0 && col < drops.length) {
+                drops[col] = Math.floor(e.clientY / fontSize);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+    "name": "Fireflies",
+    "description": "Magical floating fireflies in the night",
+    "version": "1.0",
+    "author": "MacLiveEngine",
+    
+    "particleCount": 500,
+    
+    "backgroundColor": [0.02, 0.03, 0.08, 1.0],
+    
+    "particleColors": [
+        [1.0, 0.95, 0.4, 0.9],
+        [0.9, 1.0, 0.5, 0.85],
+        [1.0, 0.8, 0.3, 0.8]
+    ],
+    
+    "particleSizeRange": [3.0, 8.0],
+    
+    "velocityRange": [-30, 30, -30, 30],
+    
+    "lifetimeRange": [3, 8],
+    
+    "effects": {
+        "glow": {
+            "enabled": true,
+            "intensity": 2.0,
+            "color": [1.0, 0.9, 0.5, 0.5]
+        },
+        "blink": {
+            "enabled": true,
+            "frequency": 2.0,
+            "randomness": 0.8
+        },
+        "attraction": {
+            "enabled": true,
+            "points": [[0.5, 0.5]],
+            "strength": 10
+        }
+    }
+}
